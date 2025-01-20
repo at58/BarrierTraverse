@@ -6,6 +6,6 @@ public class Main {
 
         Section section = new Section(1, 2);
 
-        System.out.println(section.getState(50));
+        System.out.println(section.isOpen(50));
     }
 }

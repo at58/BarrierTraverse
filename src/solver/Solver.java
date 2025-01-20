@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Solver {
 
+    private static int time;
+
     public static List<Node> findSolution(List<String> input) {
 
         int requiredSections = Integer.parseInt(input.getFirst());
@@ -20,32 +22,48 @@ public class Solver {
             sections.add(new Section(i, sectionPeriod));
         }
 
-        Node currentNode = new Node(null, sections.getFirst(), 0);
-        int time = 0;
-        int currentSection = 0;
+        time = 0;
+        Node currentNode = new Node(null, sections.getFirst(), time);
 
         while (currentNode.getSection() != sections.getLast()) {
 
-            Section nextSection = sections.get(currentSection + 1);
+            // boolean movedForward = false;
+
             // try to move >>>forward>>> as long as the current section is not closed
-            while (currentNode.getSection().getState(time)) {
-                boolean nextState = nextSection.getState(time);
-                if (nextState) {
-                    // true --> move to the next section:
-                    currentSection++;
+            while (currentNode.getSection().isOpen(time)) {
+                Section nextSection = sections.get((currentNode.getSection().getPosition() + 1));
+                boolean nextSectionOpen = nextSection.isOpen(time);
+                if (nextSectionOpen) {
+                    // true --> move to the next section --> create new Node and add it to the current node as a child.
                     Node childNode = new Node(currentNode, nextSection, time);
                     currentNode.addChildNode(childNode);
+                    // Update control variables:
                     currentNode = childNode;
-                    continue;
+                    if (currentNode.getSection() == sections.getLast()) {
+                        return reversedDepthFirstTraversal(currentNode);
+                    }
+                    // movedForward = true;
                 } else {
                     time++;
                 }
             }
-            if ()
+            currentNode = backtracking(currentNode);
         }
 
+        return List.of();
+    }
 
+    private static Node backtracking(Node currentNode) {
+        // TODO: implement backtracking algorithmen
+        Node parent = currentNode.getParent();
+        while (true) {
+            if()
+            parent.getSection().isOpen(time);
+        }
+    }
 
+    private static List<Node> reversedDepthFirstTraversal(Node leaf) {
+        // TODO: implement logic for reversed traversal from bottom to the top most node.
         return null;
     }
 }

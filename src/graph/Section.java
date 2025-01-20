@@ -30,7 +30,7 @@ public class Section {
         }
     }
 
-    public boolean getState(int time) {
+    public boolean isOpen(int time) {
 
         if (this.period == -1) {
             return true;
